@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "projet-api-64e59": {
+      "hosting": {
+        "ProjetApi": [
+          "projet-api-64e59"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "projet-api-64e59"
+  }
+}
