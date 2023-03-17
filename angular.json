@@ -3,7 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+<<<<<<< HEAD
     "ProjetApi": {
+=======
+    "projet-web2": {
+>>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+<<<<<<< HEAD
             "outputPath": "dist/projet-api",
+=======
+            "outputPath": "dist/projet-web2",
+>>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,10 +68,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
+<<<<<<< HEAD
               "browserTarget": "ProjetApi:build:production"
             },
             "development": {
               "browserTarget": "ProjetApi:build:development"
+=======
+              "browserTarget": "projet-web2:build:production"
+            },
+            "development": {
+              "browserTarget": "projet-web2:build:development"
+>>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +86,11 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
+<<<<<<< HEAD
             "browserTarget": "ProjetApi:build"
+=======
+            "browserTarget": "projet-web2:build"
+>>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
           }
         },
         "test": {
@@ -91,6 +110,7 @@
             ],
             "scripts": []
           }
+<<<<<<< HEAD
         },
         "deploy": {
           "builder": "@angular/fire:deploy",
@@ -109,3 +129,13 @@
     "analytics": false
   }
 }
+=======
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "1e9f59a5-218e-4b66-8a7c-5618bd24fc99"
+  }
+}
+>>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
