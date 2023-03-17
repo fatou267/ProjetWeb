@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-# ProjetWeb
-Projet web de recommendation de restaurants avec angular, APIs et firebase :HungerStation
-Installation Angular : npm install -g @angular/cli
-Verification : ng v
-creer une application : ng new nom_app
-=======
 # ProjetWeb2
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
@@ -32,4 +25,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
->>>>>>> d8e53ccf54ef0f8cac3a6f29dc6fef5890461a9d
