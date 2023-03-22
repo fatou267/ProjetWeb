@@ -2,7 +2,7 @@
   "targets": {
     "projet-api-64e59": {
       "hosting": {
-        "ProjetApi": [
+        "projet-web2": [
           "projet-api-64e59"
         ]
       }
