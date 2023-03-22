@@ -58,17 +58,34 @@ export class LoginComponent {
         .then((res) => (this.user = res))
         .catch((err) => (this.err = err));
       if (this.user != null) {
-        if (this.user.emailVerified) {
-          if (!rememberMe) {
-            localStorage.removeItem('login-formValue');
-            this.loginForm.reset();
-          }
-
-          this.router.navigate(['/home']);
-        } else {
-          this.err = "votre adresse mail n'a pas encore été validé. Veuillez la valider en utilisant le lien qui vous avait été envoyé"
+        console.log(this.user);
+        if (!rememberMe) {
+          localStorage.removeItem('login-formValue');
+          this.loginForm.reset();
         }
+
+        this.router.navigate(['/home']);
       }
+    }
+  }
+
+  async loginWithFcbk() {
+    await this.afService
+      .loginWithFcbk()
+      .then((res) => (this.user = res))
+      .catch((err) => (this.err = err));
+    if (this.user != null) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  async loginWithGoogle() {
+    await this.afService
+      .loginWithGoogle()
+      .then((res) => (this.user = res))
+      .catch((err) => (this.err = err));
+    if (this.user != null) {
+      this.router.navigate(['/home']);
     }
   }
 }

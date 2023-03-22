@@ -1,4 +1,5 @@
 import { Injectable, InjectionToken } from '@angular/core';
+import { FacebookAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import { FirebaseService } from './firebase_service';
@@ -71,6 +72,36 @@ export class AuthService {
     return await this.afAuth
       .confirmPasswordReset(code, password)
       .then(() => true)
+      .catch((err) => {
+        throw Error(this.fs.parseFirebaseError(err.message));
+      });
+  }
+
+  async verifyEmail() {
+    return await this.afAuth.currentUser
+      .then((user) => {
+        if (user) {
+          let newUser = user;
+          newUser.emailVerified = true;
+          this.afAuth.updateCurrentUser(newUser);
+        }
+      })
+      .catch((err) => err);
+  }
+
+  async loginWithFcbk() {
+    return await this.afAuth
+      .signInWithPopup(new FacebookAuthProvider())
+      .then((res) => (this.user = res.user))
+      .catch((err) => {
+        throw Error(this.fs.parseFirebaseError(err.message));
+      });
+  }
+
+  async loginWithGoogle() {
+    return await this.afAuth
+      .signInWithPopup(new GoogleAuthProvider())
+      .then((res) => (this.user = res.user))
       .catch((err) => {
         throw Error(this.fs.parseFirebaseError(err.message));
       });

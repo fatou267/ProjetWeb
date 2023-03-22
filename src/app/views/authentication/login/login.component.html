@@ -28,7 +28,7 @@
         <input
           type="checkbox"
           class="form-check-input"
-          formControlName="cguAccepted"
+          formControlName="rememberMe"
           id="exampleCheck1"
         />
         <label class="form-check-label" for="exampleCheck1"
@@ -43,6 +43,13 @@
         >Pas encore de compte ? <a routerLink="/signup">Créez-en un</a></label
       >
     </div>
+    <p class="heading-1 my-5"><span>Ou</span></p>
+
+    <div class="d-flex justify-content-between mx-5">
+        <button type="button" (click)="(loginWithFcbk())" class="btn btn-primary col-5">Facebook</button>
+        <button type="button" (click)="(loginWithGoogle())" class="btn btn-danger col-5">Google</button>
+    </div>
+
     <div *ngIf="warning" class="alert alert-warning mt-5" role="alert">
       {{ warning }}
     </div>

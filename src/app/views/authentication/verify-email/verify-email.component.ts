@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth_service';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,14 +9,19 @@ import { Router } from '@angular/router';
 })
 export class VerifyEmailComponent {
   sec: number;
-  constructor(private router: Router) {
-    this.sec = 2000;
+  constructor(
+    private router: Router,
+    private afService: AuthService,
+    private activeRoute: ActivatedRoute
+  ) {
+    this.sec = 3000;
     this.redirection();
   }
 
   redirection() {
+    this.afService.verifyEmail();
     setTimeout(() => {
       this.router.navigate(['/login']);
-    }, 2000);
+    }, 3000);
   }
 }
