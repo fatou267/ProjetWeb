@@ -17,6 +17,7 @@ import { ForgotPasswordComponent } from './views/authentication/forgot-password/
 import { ActionComponent } from './views/authentication/action/action.component';
 import { VerifyEmailComponent } from './views/authentication/verify-email/verify-email.component';
 import { ResetPasswordComponent } from './views/authentication/reset-password/reset-password.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ResetPasswordComponent } from './views/authentication/reset-password/re
     BrowserModule,
     AppRoutingModule,
     AngularFireModule,
+    HttpClientModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

@@ -9,3 +9,5 @@ export const environment = {
   },
 	production: false
 };
+
+export const baseUrl = "https://apiecommerceproduction.bdconsulting-cm.com/api/"
