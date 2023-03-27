@@ -1,0 +1,61 @@
+.home {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.searchbar {
+  position: absolute;
+  z-index: 2;
+}
+
+.map {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.avatar {
+  position: absolute;
+  z-index: 3;
+  bottom: 10px;
+  left: 10px;
+  height: 160px;
+}
+
+img.avatar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  position: absolute;
+  bottom: 3px;
+  left: 80px;
+  display: inline-block;
+  align-items: center;
+  align-content: center;
+  padding-top: 20px;
+  text-align: left;
+  color: white;
+}
+
+.firstname {
+  margin-left: 10px;
+  font-size: 1rem;
+  display: inline-block;
+  font-weight: 400;
+}
+
+.lastname {
+  margin-left: 10px;
+  font-size: 1.4rem;
+  display: block;
+  font-weight: 600;
+}

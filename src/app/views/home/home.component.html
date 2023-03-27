@@ -1,4 +1,47 @@
-<div>
+<div class="home">
+  <div class="container-fluid searchbar py-3">
+    <form class="row g-3">
+      <div class="col-auto">
+        <input
+          type="text"
+          class="form-control"
+          id="inputPassword2"
+          placeholder="Password"
+        />
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-secondary mb-3">Rechercher</button>
+      </div>
+    </form>
+  </div>
+
+  <app-map class="map"></app-map>
+
+  <a
+    class="btn btn-outline avatar"
+    data-bs-toggle="collapse"
+    href="#collapseExample"
+    role="button"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <button class="btn btn-danger">Déconnexion</button>
+      </div>
+    </div>
+    <img
+      src="https://media.istockphoto.com/id/1163603961/fr/photo/belle-femme.jpg?s=170667a&w=0&k=20&c=Q25QpSfUyI4C3-BqPNTKbxk0zhQ4pa93jZ-oQp0ZOvY="
+      alt="avatar"
+      class="avatar"
+    />
+    <div class="name">
+      <span class="firstname">Audrey</span>
+      <span class="lastname">Bonaventure</span>
+    </div>
+  </a>
+</div>
+<!-- <div>
   <button (click)="signout()" class="btn btn-sm btn-danger">Déconnexion</button>
   <br />
   <br />
@@ -23,4 +66,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->

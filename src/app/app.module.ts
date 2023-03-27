@@ -18,6 +18,8 @@ import { ActionComponent } from './views/authentication/action/action.component'
 import { VerifyEmailComponent } from './views/authentication/verify-email/verify-email.component';
 import { ResetPasswordComponent } from './views/authentication/reset-password/reset-password.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MapComponent } from './views/map/map.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     ActionComponent,
     VerifyEmailComponent,
     ResetPasswordComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMapboxGLModule
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],

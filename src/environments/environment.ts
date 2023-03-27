@@ -7,7 +7,13 @@ export const environment = {
     authDomain: 'projet-api-64e59.firebaseapp.com',
     messagingSenderId: '845732716561',
   },
-	production: false
+  production: false,
 };
 
-export const baseUrl = "https://apiecommerceproduction.bdconsulting-cm.com/api/"
+export const baseUrl =
+  'https://apiecommerceproduction.bdconsulting-cm.com/api/';
+
+export const mapboxEnv = {
+  accessToken:
+    'pk.eyJ1IjoieXZhbnRhdHNpIiwiYSI6ImNsZnE3dGNidzFkZ2wzc212NTQxeTU3bGcifQ.9khV6hqH5D82ytFjjAhLrg',
+};

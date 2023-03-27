@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
   }
 
   async signout() {
-    console.log('deconnexoin en cours');
     await this.afService
       .signout()
       .then(() => (this.loggedOut = true))
