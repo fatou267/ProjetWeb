@@ -10,8 +10,7 @@ export const environment = {
   production: false,
 };
 
-export const baseUrl =
-  'https://apiecommerceproduction.bdconsulting-cm.com/api/';
+export const baseUrl = "https://api.mapbox.com";
 
 export const mapboxEnv = {
   accessToken:

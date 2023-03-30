@@ -1,7 +1,14 @@
-<!-- <mgl-map
-    [style]="style"
-    [zoom]="[5]"
-    [center]="[-1.6833, 48.1033]"
-  >
-</mgl-map> -->
-<div class="map" id="map" class="match-parent"></div>
+<div class="match-parent">
+  <div id="map" class="map"></div>
+  <div *ngIf="loading" class="loading">
+    <div class="spinner">
+      <div class="lds-default">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="spinner-text">{{ loadingText }}</div>
+  </div>
+</div>

@@ -16,10 +16,7 @@ export class SignupComponent {
   loginForm: FormGroup;
   res: string;
 
-  constructor(
-    private fb: FormBuilder,
-    private afService: AuthService,
-  ) {
+  constructor(private fb: FormBuilder, private afService: AuthService) {
     const value = JSON.parse(localStorage.getItem('sign-formValue')!);
 
     this.loginForm = fb.group({
@@ -29,7 +26,10 @@ export class SignupComponent {
     });
 
     this.loginForm.valueChanges.subscribe((value) => {
-      localStorage.setItem('signup-formValue', JSON.stringify(this.loginForm.value));
+      localStorage.setItem(
+        'signup-formValue',
+        JSON.stringify(this.loginForm.value)
+      );
     });
 
     this.err = '';
@@ -51,7 +51,8 @@ export class SignupComponent {
     } else {
       this.warning = '';
       this.err = '';
-      this.afService
+      this.res = '';
+      await this.afService
         .signup(email, password)
         .then((res) => (this.user = res))
         .catch((err) => (this.err = err));
@@ -59,7 +60,8 @@ export class SignupComponent {
         localStorage.removeItem('signup-formValue');
         this.loginForm.reset();
 
-        this.res = 'Compte créé avec succès. Un mail de validation vous a été envoyé pour activer votre compte'
+        this.res =
+          'Compte créé avec succès. Un mail de validation vous a été envoyé pour activer votre compte';
       }
     }
   }

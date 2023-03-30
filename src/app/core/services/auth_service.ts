@@ -9,16 +9,14 @@ import { FirebaseService } from './firebase_service';
 })
 export class AuthService {
   authState: any;
-  user: any;
   constructor(private afAuth: AngularFireAuth, private fs: FirebaseService) {
     this.authState = afAuth.authState;
-    this.user = null;
   }
 
   async login(email: string, password: string) {
     return await this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((res) => (this.user = res.user))
+      .then((res) => res.user)
       .catch((err) => {
         throw Error(this.fs.parseFirebaseError(err.message));
       });
@@ -27,9 +25,9 @@ export class AuthService {
   async signup(email: string, password: string) {
     return await this.afAuth
       .createUserWithEmailAndPassword(email, password)
-      .then(async (res) => {
-        await this.sendVerificationMail(email)
-          .then(() => (this.user = res))
+      .then(async () => {
+        return await this.sendVerificationMail(email)
+          .then((res) => res)
           .catch((err) => {
             throw Error(this.fs.parseFirebaseError(err.message));
           });
@@ -44,7 +42,7 @@ export class AuthService {
       .then((user) => {
         return user
           ?.sendEmailVerification()
-          .then(() => {})
+          .then(() => user)
           .catch((err) => err);
       })
       .catch((err) => err);
@@ -53,7 +51,7 @@ export class AuthService {
   async signout() {
     return await this.afAuth
       .signOut()
-      .then(() => (this.user = null))
+      .then(() => null)
       .catch((err) => {
         throw Error(this.fs.parseFirebaseError(err.message));
       });
@@ -92,7 +90,7 @@ export class AuthService {
   async loginWithFcbk() {
     return await this.afAuth
       .signInWithPopup(new FacebookAuthProvider())
-      .then((res) => (this.user = res.user))
+      .then((res) => res.user)
       .catch((err) => {
         throw Error(this.fs.parseFirebaseError(err.message));
       });
@@ -101,7 +99,7 @@ export class AuthService {
   async loginWithGoogle() {
     return await this.afAuth
       .signInWithPopup(new GoogleAuthProvider())
-      .then((res) => (this.user = res.user))
+      .then((res) => res.user)
       .catch((err) => {
         throw Error(this.fs.parseFirebaseError(err.message));
       });

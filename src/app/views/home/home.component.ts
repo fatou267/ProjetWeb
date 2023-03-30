@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth_service';
 import { Data } from 'src/app/models/data';
-import { DataRepository } from 'src/app/repositories/pokemon_repository';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +18,6 @@ export class HomeComponent implements OnInit {
   constructor(
     private afService: AuthService,
     private router: Router,
-    private dataRepo: DataRepository,
     private http: HttpClient
   ) {
     this.loggedOut = false;
@@ -27,12 +25,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.dataRepo.getData().subscribe((response) => {
-      if (response) {
-        this.loading = false;
-      }
-      this.lis = response
-    });
   }
 
   async signout() {
