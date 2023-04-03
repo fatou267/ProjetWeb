@@ -88,5 +88,14 @@
     transform: scale(1.5);
   }
 }
-
 /* End spin Loader */
+
+.btn {
+  position: absolute;
+  z-index: 3;
+}
+
+.modal {
+  position: absolute;
+  z-index: 4;
+}

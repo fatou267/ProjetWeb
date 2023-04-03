@@ -17,9 +17,15 @@ import { ForgotPasswordComponent } from './views/authentication/forgot-password/
 import { ActionComponent } from './views/authentication/action/action.component';
 import { VerifyEmailComponent } from './views/authentication/verify-email/verify-email.component';
 import { ResetPasswordComponent } from './views/authentication/reset-password/reset-password.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MapComponent } from './views/map/map.component';
+import { ModalComponent } from './views/components/modal/modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HttpInterceptorService } from './http_services/http_interceptor';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -32,6 +38,7 @@ import { MapComponent } from './views/map/map.component';
     VerifyEmailComponent,
     ResetPasswordComponent,
     MapComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,9 +51,20 @@ import { MapComponent } from './views/map/map.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMapboxGLModule
+    NgxMapboxGLModule,
+    MatDialogModule,
+    MatIconModule,
+    MatToolbarModule,
+    AngularFirestoreModule
   ],
-  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
+  providers: [
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

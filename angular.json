@@ -60,6 +60,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "options": {
+              "browserTarget": "projet-web2:build:development",
+              "proxyConfig": "src/proxy.conf.json"
+            },
             "production": {
               "browserTarget": "projet-web2:build:production"
             },

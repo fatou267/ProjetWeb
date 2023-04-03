@@ -1,5 +1,5 @@
 <div class="home">
-  <div class="container-fluid searchbar py-3">
+  <!-- <div class="container-fluid searchbar py-3">
     <form class="row g-3">
       <div class="col-auto">
         <input
@@ -13,7 +13,7 @@
         <button type="submit" class="btn btn-secondary mb-3">Rechercher</button>
       </div>
     </form>
-  </div>
+  </div> -->
 
   <app-map class="map"></app-map>
 
@@ -27,17 +27,29 @@
   >
     <div class="collapse" id="collapseExample">
       <div class="card card-body">
-        <button class="btn btn-danger" (click)="signout()">Déconnexion</button>
+        <button class="btn btn-sm text-light" (click)="fetchRestaurantVisites()">
+          Restaurants consultés
+        </button>
+        <br />
+        <button class="btn btn-sm btn-danger" (click)="signout()">Déconnexion</button>
       </div>
     </div>
     <img
-      src="https://media.istockphoto.com/id/1163603961/fr/photo/belle-femme.jpg?s=170667a&w=0&k=20&c=Q25QpSfUyI4C3-BqPNTKbxk0zhQ4pa93jZ-oQp0ZOvY="
+      *ngIf="user.photoURL"
+      src="{{ user.photoURL }}"
+      alt="avatar"
+      class="avatar"
+    />
+    <img
+      *ngIf="user.photoURL == undefined"
+      src="https://eu.ui-avatars.com/api/?name={{
+        user.displayName ?? user.email
+      }}&size=300&background=2979FF&color=fff&bold=true"
       alt="avatar"
       class="avatar"
     />
     <div class="name">
-      <span class="firstname">Audrey</span>
-      <span class="lastname">Bonaventure</span>
+      <span class="firstname">{{ user.displayName ?? user.email }}</span>
     </div>
   </a>
 </div>

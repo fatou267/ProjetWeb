@@ -1,21 +1,30 @@
 import { mapboxEnv } from '../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { GeoJson } from 'src/app/models/geojson';
-import { MapAPIService } from 'src/app/repositories/map_api_service';
+import { MapAPIService } from 'src/app/http_services/map_api_service';
+import { RestaurantDetails } from 'src/app/models/details';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../components/modal/modal.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
+  providers: [MatDialog],
 })
 export class MapComponent implements OnInit {
   map: mapboxgl.Map | undefined;
-  markers: GeoJson | undefined;
-  center = new mapboxgl.LngLat(1.872409, 50.951);
+  center = new mapboxgl.LngLat(0, 0);
   loading: boolean;
   loadingText: string;
+  alreadyShowRoute: boolean = false;
 
-  constructor(private mapAPIService: MapAPIService) {
+  constructor(
+    private mapAPIService: MapAPIService,
+    public dialog: MatDialog,
+    private firestore: AngularFirestore
+  ) {
     this.loading = false;
     this.loadingText = '';
   }
@@ -24,38 +33,73 @@ export class MapComponent implements OnInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/yvantatsi/clfqa8d9q002u01nisuktqjuc',
-      zoom: 8,
-      accessToken: mapboxEnv.accessToken,
-      center: [this.center.lng, this.center.lat],
+      zoom: 5,
+      accessToken: mapboxEnv.token,
+      center: this.center,
     });
-    const control = this.map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        // When active the map will receive updates to the device's location as it changes.
-        trackUserLocation: true,
-        // Draw an arrow next to the location dot to indicate which direction the device is heading.
-        showUserHeading: true,
-      })
-    );
 
-    console.log(control)
-
-    this.map.on('load', () => {
-      // this.addMarker(this.center, 'blue');
+    this.map.on('load', async () => {
+      this.getUserLocation();
+      setTimeout(() => {
+        this.getRestaurant(10);
+      }, 5000);
     });
   }
 
-  addMarker(pos: mapboxgl.LngLat, color: string = 'blue') {
+  async getRestaurant(radius: number) {
+    this.map?.setZoom(15 - Math.log2(radius / 50));
+
+    this.mapAPIService
+      .getRestaurant(radius, this.center.lat, this.center.lng)
+      .subscribe((res) => {
+        this.loading = true;
+        this.loadingText = 'Récuperation des restaurants autour de vous';
+
+        if (res) {
+          this.loading = false;
+          this.loadingText = '';
+          if (res.businesses.length == 0) {
+            this.loading = true;
+            this.loadingText =
+              'Aucun restaurant à ' +
+              radius * 1000 +
+              'km. Augmenter le périmètre de recherche';
+          }
+          res.businesses.forEach((restaurant) => {
+            this.addMarkerRestaurant(
+              new mapboxgl.LngLat(
+                restaurant.coordinates.longitude,
+                restaurant.coordinates.latitude
+              ),
+              restaurant
+            );
+          });
+        }
+      });
+  }
+
+  addMarker(pos: mapboxgl.LngLat) {
     new mapboxgl.Marker({
-      color: color,
+      color: 'blue',
     })
       .setLngLat(pos)
       .addTo(this.map!);
   }
 
+  addMarkerRestaurant(pos: mapboxgl.LngLat, restaurant: RestaurantDetails) {
+    const marker = new mapboxgl.Marker({
+      color: 'red',
+    })
+      .setLngLat(pos)
+      .addTo(this.map!);
+
+    marker
+      .getElement()
+      .addEventListener('click', () => this.openDetails(restaurant));
+  }
+
   drawPathToLocation(route: Array<Array<number>>, color: string = 'blue') {
+    this.alreadyShowRoute = true;
     this.map!.addSource('route', {
       type: 'geojson',
       data: {
@@ -83,7 +127,87 @@ export class MapComponent implements OnInit {
     });
 
     const tmp = route[route.length - 1];
+  }
 
-    this.addMarker(new mapboxgl.LngLat(tmp[0], tmp[1]), color);
+  getUserLocation() {
+    this.loading = true;
+    this.loadingText = 'Récupération de votre position';
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        this.center.lng = longitude;
+        this.center.lat = latitude;
+        this.map?.flyTo({ center: this.center });
+        this.addMarker(this.center);
+        this.loading = false;
+        this.loadingText = 'Récupération de votre position';
+      });
+    } else {
+      console.log('No support for geolocation');
+    }
+  }
+
+  openDetails(restaurant: RestaurantDetails): void {
+    if (this.alreadyShowRoute) {
+      this.map?.removeLayer('route');
+
+      this.map?.removeSource('route');
+      this.alreadyShowRoute = false;
+    }
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: restaurant!,
+    });
+
+    this.writeOnFirestore(restaurant);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.mapAPIService
+          .computeRoute(
+            'driving',
+            this.center,
+            new mapboxgl.LngLat(
+              restaurant.coordinates.longitude,
+              restaurant.coordinates.latitude
+            )
+          )
+          .subscribe((a) => {
+            if (a) {
+              if (a.routes.length != 0) {
+                this.drawPathToLocation(a.routes[0].geometry.coordinates);
+              }
+            }
+          });
+      }
+    });
+  }
+
+  writeOnFirestore(restaurant: RestaurantDetails) {
+    this.firestore
+      .collection('restaurants-consultes')
+      .add({
+        id: restaurant.id,
+        alias: restaurant.alias,
+        name: restaurant.name,
+        image_url: restaurant.image_url,
+        is_closed: restaurant.is_closed,
+        url: restaurant.url,
+        review_count: restaurant.review_count,
+        categories: restaurant.categories,
+        rating: restaurant.rating,
+        coordinates: restaurant.coordinates,
+        location: restaurant.location,
+        phone: restaurant.phone,
+        display_phone: restaurant.display_phone,
+        distance: restaurant.distance,
+      })
+      .then(() => console.log('Restaurant ajouté', restaurant))
+      .catch((err) =>
+        console.error(
+          "erreur lors de l'ajout du restaurant " + restaurant.alias + ' : ',
+          err
+        )
+      );
   }
 }

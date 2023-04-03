@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProviderImageService } from '../../../core/services/provider_image_service';
 import { AuthService } from 'src/app/core/services/auth_service';
-import { isEmpty } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getUser, setUser } from 'src/app/core/shared/current_user';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providers: [AuthService],
 })
 export class LoginComponent {
-  user: any;
   err: string;
   warning: string;
   loginForm: FormGroup;
@@ -55,10 +53,9 @@ export class LoginComponent {
       this.err = '';
       this.afService
         .login(email, password)
-        .then((res) => (this.user = res))
+        .then((res) => setUser(res))
         .catch((err) => (this.err = err));
-      if (this.user != null) {
-        console.log(this.user);
+      if (getUser()) {
         if (!rememberMe) {
           localStorage.removeItem('login-formValue');
           this.loginForm.reset();
@@ -72,9 +69,9 @@ export class LoginComponent {
   async loginWithFcbk() {
     await this.afService
       .loginWithFcbk()
-      .then((res) => (this.user = res))
+      .then((res) => setUser(res))
       .catch((err) => (this.err = err));
-    if (this.user != null) {
+    if (getUser()) {
       this.router.navigate(['/home']);
     }
   }
@@ -82,10 +79,11 @@ export class LoginComponent {
   async loginWithGoogle() {
     await this.afService
       .loginWithGoogle()
-      .then((res) => (this.user = res))
+      .then((res) => setUser(res))
       .catch((err) => (this.err = err));
-    if (this.user != null) {
+    if (getUser()) {
       this.router.navigate(['/home']);
     }
   }
 }
+export const u = [];

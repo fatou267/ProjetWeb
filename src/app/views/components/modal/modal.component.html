@@ -1,0 +1,22 @@
+<div class="main container">
+  <button
+    type="button"
+    (click)="onNoClick()"
+    class="btn-close"
+    aria-label="Close"
+  ></button>
+
+  <img src="{{ data.image_url }}" alt="image" class="cover" />
+  <p class="alias">{{ data.alias }}</p>
+  <p class="name">Nom complet: {{ data.name }}</p>
+  <p class="open">Ouvert Actuellement : {{ data.is_closed }}</p>
+  <p class="address">{{ data.location.display_address.join(" ") }}</p>
+  <p class="rating">Note: {{ data.rating }} / 5 - {{ data.review_count }} Avis</p>
+  <p class="phone">{{ data.display_phone }}</p>
+  <p class="">Distance {{ data.distance / 1000 }}km</p>
+  <p class="">Ouvert Actuellement : {{ data.is_closed }}</p>
+  <a href="{{ data.url }}">Voir plus...</a><br>
+  <button type="button" (click)="onYesClick()" class="btn btn-success">
+    Afficher l'itinéraire
+  </button>
+</div>

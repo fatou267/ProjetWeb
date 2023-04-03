@@ -1,7 +1,6 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { FacebookAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
 import { FirebaseService } from './firebase_service';
 
 @Injectable({
