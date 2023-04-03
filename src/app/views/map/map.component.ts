@@ -6,6 +6,7 @@ import { RestaurantDetails } from 'src/app/models/details';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../components/modal/modal.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { getUser } from 'src/app/core/shared/current_user';
 
 @Component({
   selector: 'app-map',
@@ -19,6 +20,7 @@ export class MapComponent implements OnInit {
   loading: boolean;
   loadingText: string;
   alreadyShowRoute: boolean = false;
+  radius: number = 20;
 
   constructor(
     private mapAPIService: MapAPIService,
@@ -44,6 +46,10 @@ export class MapComponent implements OnInit {
         this.getRestaurant(10);
       }, 5000);
     });
+  }
+
+  onChange() {
+    console.log(this.radius)
   }
 
   async getRestaurant(radius: number) {
@@ -187,20 +193,8 @@ export class MapComponent implements OnInit {
     this.firestore
       .collection('restaurants-consultes')
       .add({
-        id: restaurant.id,
-        alias: restaurant.alias,
-        name: restaurant.name,
-        image_url: restaurant.image_url,
-        is_closed: restaurant.is_closed,
-        url: restaurant.url,
-        review_count: restaurant.review_count,
-        categories: restaurant.categories,
-        rating: restaurant.rating,
-        coordinates: restaurant.coordinates,
-        location: restaurant.location,
-        phone: restaurant.phone,
-        display_phone: restaurant.display_phone,
-        distance: restaurant.distance,
+        restaurant: restaurant,
+        user: getUser()?.email ?? '',
       })
       .then(() => console.log('Restaurant ajouté', restaurant))
       .catch((err) =>

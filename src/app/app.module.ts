@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpInterceptorService } from './http_services/http_interceptor';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { RestaurantConsultesComponent } from './views/components/restaurant-consultes/restaurant-consultes.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     ResetPasswordComponent,
     MapComponent,
     ModalComponent,
+    RestaurantConsultesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,18 @@
 <div class="match-parent">
+  <p class="slider">
+    <label for="customRange2" class="form-label">Rayon de recherche</label>
+    <input
+      type="range"
+      ng
+      class="form-range"
+      value="{{ radius }}"
+      min="0"
+      (change)="onChange()"
+      max="40"
+      id="customRange2"
+    />
+  </p>
+
   <div id="map" class="map"></div>
   <div *ngIf="loading" class="loading">
     <div class="spinner">

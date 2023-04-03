@@ -7,6 +7,8 @@ import { Data } from 'src/app/models/data';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { RestaurantDetails } from 'src/app/models/details';
 import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { RestaurantConsultesComponent } from '../components/restaurant-consultes/restaurant-consultes.component';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +26,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private afService: AuthService,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    public dialog: MatDialog
   ) {
     this.loggedOut = false;
     this.user = getUser();
@@ -48,9 +51,12 @@ export class HomeComponent implements OnInit {
   fetchRestaurantVisites() {
     this.firestore
       .collection<RestaurantDetails>('restaurants-consultes')
-      .valueChanges().subscribe((res) => {
-        if(res) {
-          this.restaurantsVisites = res
+      .valueChanges()
+      .subscribe((res) => {
+        if (res) {
+          const dialogRef = this.dialog.open(RestaurantConsultesComponent, {
+            data: res,
+          });
         }
       });
   }

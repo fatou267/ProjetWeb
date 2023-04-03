@@ -99,3 +99,11 @@
   position: absolute;
   z-index: 4;
 }
+
+.slider {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 200px;
+  height:50px;
+}

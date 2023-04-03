@@ -1,0 +1,7 @@
+Informations sur les restaurants consultes
+<p *ngIf="data == []">
+    Aucun restaurant
+</p>
+<div *ngIf="data">
+  <p *ngFor="let e of data">Nom :{{ e.restaurant.alias }}</p>
+</div>
